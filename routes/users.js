@@ -26,7 +26,7 @@ let users = [
 // GET request: Retrieve all users
 router.get("/",(req,res)=>{
   // Copy the code here
-  res.send(users);
+  res.send(JSON.stringify({users}, null, 4));
 });
 
 // GET by specific ID request: Retrieve a single user with email ID
@@ -84,10 +84,11 @@ router.put("/:email", (req, res) => {
 
 
 // DELETE request: Delete a user by email ID
-router.delete("/:email", (req, res) => {
-  const email = req.params.email;
-  users = users.filter((user) => user.email != email);
-  res.send(`user with email ${email} has been successfully deleted`);
-});
+
+router.delete("/:email", (req,res) => {
+    const email = req.params.email;
+    users = users.filter((user)=>user.email !== email);
+    res.send(`user with email ${email} has been successfully removed!`);
+})
 
 module.exports=router;
