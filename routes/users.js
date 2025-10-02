@@ -22,6 +22,21 @@ let users = [
         DOB:"21-03-1989",
     },
 ];
+//function to convert a date string in the format "dd/mm/yyyy" to a Date object
+
+function getDateFromString(strDate) {
+    let [dd, mm, yyyy] = strDate.split('-');
+    return new Date(yyyy + "/" + mm + "/" + dd);
+}
+//router for GET requests to the /sortByDate endpoint
+router.get("/sortByDate", (req,res)=>{
+    let sorted_users = users.sort(function(a, b) {
+        let d1 = getDateFromString(a.DOB);
+        let d2 = getDateFromString(b.DOB);
+        return d1 - d2;
+    });
+    res.send(sorted_users);
+});
 
 // GET request: Retrieve all users
 router.get("/",(req,res)=>{
@@ -36,6 +51,11 @@ router.get("/:email",(req,res)=>{
   res.send(filtered_users);
 });
 
+router.get("/lastName/:lastName",(req,res)=>{
+    const lastName = req.params.lastName;
+    const filtered_users = users.filter((user)=>user.lastName === lastName);
+    res.send(filtered_users);
+})
 
 // POST request: Create a new user
 router.post("/",(req,res)=>{
